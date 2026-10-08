@@ -1,0 +1,86 @@
+/*
+ * 表示確認用のスタイル
+ *
+ * stickerの外側の装飾を中央に揃える方法を比較するため、ライブラリのスタイルを上書きする
+ * (セレクタの詳細度をライブラリより高くしている)
+ */
+
+/* ===== 中央寄せの方法: transform ===== */
+.story-centering-transform
+  .frg-layout-sticker-item.frg-layout-sticker-side-top.frg-layout-sticker-alignX-center,
+.story-centering-transform
+  .frg-layout-sticker-item.frg-layout-sticker-side-bottom.frg-layout-sticker-alignX-center {
+  translate: none;
+  transform: translateX(-50%);
+}
+.story-centering-transform
+  .frg-layout-sticker-item.frg-layout-sticker-side-left.frg-layout-sticker-alignY-middle,
+.story-centering-transform
+  .frg-layout-sticker-item.frg-layout-sticker-side-right.frg-layout-sticker-alignY-middle {
+  translate: none;
+  transform: translateY(-50%);
+}
+
+/* ===== 中央寄せの方法: inset(案1) ===== */
+/* 左右(上下)の位置をコンテナより大きく外側に広げ、autoのmarginで中央に寄せる */
+.story-centering-inset
+  .frg-layout-sticker-item.frg-layout-sticker-side-top.frg-layout-sticker-alignX-center,
+.story-centering-inset
+  .frg-layout-sticker-item.frg-layout-sticker-side-bottom.frg-layout-sticker-alignX-center {
+  translate: none;
+  left: -100vw;
+  right: -100vw;
+  margin-inline: auto;
+}
+.story-centering-inset
+  .frg-layout-sticker-item.frg-layout-sticker-side-left.frg-layout-sticker-alignY-middle,
+.story-centering-inset
+  .frg-layout-sticker-item.frg-layout-sticker-side-right.frg-layout-sticker-alignY-middle {
+  translate: none;
+  top: -100vh;
+  bottom: -100vh;
+  margin-block: auto;
+  height: max-content;
+}
+
+/* ===== 装飾のtransform ===== */
+/* 利用者が装飾にtransformのアニメーションを指定した場合を再現する */
+/* (scale / rotateはインラインスタイルで指定する) */
+.story-transform-pulse > [class*='-item'] {
+  animation: story-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes story-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+}
+
+/* ===== 本体の大きさ ===== */
+/* 実際のコンポーネントのように、本体の大きさをクラスで指定する */
+/* (インラインスタイルはsizingX / sizingYのfillでも上書きできないため) */
+.story-main-bar {
+  height: 8px;
+}
+.story-main-box {
+  width: 120px;
+  height: 80px;
+}
+
+/* ===== specの本体・コンテナの大きさ ===== */
+.story-main-fixed {
+  width: 100px;
+  height: 60px;
+}
+.story-main-large {
+  width: 200px;
+  height: 100px;
+}
+.story-container-sized {
+  width: 300px;
+  height: 200px;
+}
