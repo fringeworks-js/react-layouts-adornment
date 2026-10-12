@@ -1,9 +1,5 @@
-import indexes from '@fringeworks/dev/indexes';
-import {
-  CONSTANTS,
-  PRIVATE,
-  TEST_FILE,
-} from '@fringeworks/dev/indexes/constants';
+import { CONSTANTS, PRIVATE, TEST_FILE } from '@fringeworks/dev/constants';
+import generateIndexFiles from '@fringeworks/dev/generateIndexFiles';
 
 /**
  * 型テストのファイル
@@ -14,6 +10,6 @@ const TYPE_TEST_FILE = {
   conditions: /.*\.test-d\.(ts|tsx|js|jsx)$/i,
 } as const;
 
-indexes({
+generateIndexFiles({
   exclude: [CONSTANTS, PRIVATE, TEST_FILE, TYPE_TEST_FILE],
 });

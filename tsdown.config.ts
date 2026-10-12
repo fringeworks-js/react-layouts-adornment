@@ -29,8 +29,6 @@ export default defineConfig({
   },
   plugins: [
     distPackage({
-      resolveWorkspaceDeps: true,
-      range: '^',
       content: {
         main: './index.cjs',
         module: './index.mjs',
@@ -59,6 +57,8 @@ export default defineConfig({
           },
         },
       },
+      resolveWorkspaceDeps: true,
+      range: '^',
     }),
     copy({
       targets: [
