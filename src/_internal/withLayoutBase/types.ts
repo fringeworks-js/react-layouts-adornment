@@ -7,7 +7,11 @@ import type {
   PropsWithoutRef,
   RefAttributes,
 } from 'react';
-import type { LayoutBaseProps } from '../applyLayout';
+import type {
+  ExtractLayoutOptions,
+  LayoutBaseProps,
+  LayoutFunction,
+} from '../applyLayout';
 
 /**
  * ユニオン型を分配して全てのキーを取り出す
@@ -16,6 +20,16 @@ import type { LayoutBaseProps } from '../applyLayout';
  * 分配してから取り出す
  */
 export type AllKeys<T> = T extends unknown ? keyof T : never;
+
+/**
+ * レイアウトを作る関数と、プロパティからそのオプションを分ける関数の組
+ *
+ * - オプションの型はレイアウトを作る関数から推論する
+ */
+export type LayoutDefinition<O> = readonly [
+  layout: LayoutFunction<O>,
+  extractOptions: ExtractLayoutOptions<NoInfer<O>>,
+];
 
 /**
  * HOCのオプション

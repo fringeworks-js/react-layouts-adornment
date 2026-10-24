@@ -1,2 +1,2 @@
 export type * from './types';
-export { default } from './withStickerLayout';
+export { default, default as withStickerLayout } from './withStickerLayout';

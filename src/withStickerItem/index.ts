@@ -1,2 +1,2 @@
 export type * from './types';
-export { default } from './withStickerItem';
+export { default, default as withStickerItem } from './withStickerItem';

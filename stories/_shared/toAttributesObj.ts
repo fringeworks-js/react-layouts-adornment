@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 type LooseDictionary = Record<string, any>;
 
 // 文字列→数値への変換を行うargs

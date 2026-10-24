@@ -1,2 +1,2 @@
 export type * from './types';
-export { default } from './withAffixLayout';
+export { default, default as withAffixLayout } from './withAffixLayout';

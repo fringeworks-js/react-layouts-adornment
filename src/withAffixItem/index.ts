@@ -1,2 +1,2 @@
 export type * from './types';
-export { default } from './withAffixItem';
+export { default, default as withAffixItem } from './withAffixItem';

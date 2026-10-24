@@ -69,6 +69,19 @@ test.describe('sticker - 本体・コンテナ', () => {
     const container = await getContainerRect(page);
     expectSameRect(container, main);
   });
+
+  test('hug: インライン要素の本体でも下に隙間ができず、装飾が本体に揃う', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'hug-inline-main');
+    const main = await getRect(page, 'main');
+    const bottom = await getRect(page, 'bottom');
+    const inside = await getRect(page, 'inside');
+    const container = await getContainerRect(page);
+    expectSameRect(container, main);
+    expect(bottom.top).toBeCloseTo(main.bottom + GAP, 0);
+    expect(inside.bottom).toBeCloseTo(main.bottom, 0);
+  });
 });
 
 // ===== 上下 =====
@@ -346,5 +359,94 @@ test.describe('sticker - 大きさの決め方', () => {
     expect(top.bottom).toBeCloseTo(container.top - GAP, 0);
     expect(inside.right).toBeCloseTo(container.right, 0);
     expect(inside.top).toBeCloseTo(container.top, 0);
+  });
+});
+
+// ===== keep: 装飾を本体に揃える =====
+
+const getKeepRects = async (page: Page) => ({
+  main: await getRect(page, 'main'),
+  topLeft: await getRect(page, 'topLeft'),
+  topRight: await getRect(page, 'topRight'),
+  leftTop: await getRect(page, 'leftTop'),
+  rightBottom: await getRect(page, 'rightBottom'),
+  inside: await getRect(page, 'inside'),
+  container: await getContainerRect(page),
+});
+
+type KeepRects = Awaited<ReturnType<typeof getKeepRects>>;
+
+/**
+ * 横方向の装飾が本体に揃っている
+ */
+const expectAlignedX = ({ main, topLeft, topRight, inside }: KeepRects) => {
+  expect(topLeft.left).toBeCloseTo(main.left, 0);
+  expect(topRight.right).toBeCloseTo(main.right, 0);
+  expect(inside.right).toBeCloseTo(main.right, 0);
+};
+
+/**
+ * 縦方向の装飾が本体に揃っている
+ */
+const expectAlignedY = ({ main, leftTop, rightBottom, inside }: KeepRects) => {
+  expect(leftTop.top).toBeCloseTo(main.top, 0);
+  expect(rightBottom.bottom).toBeCloseTo(main.bottom, 0);
+  expect(inside.top).toBeCloseTo(main.top, 0);
+};
+
+/**
+ * 外側の装飾が本体からgapの間隔で配置されている
+ */
+const expectGap = ({ main, topLeft, leftTop, rightBottom }: KeepRects) => {
+  expect(topLeft.bottom).toBeCloseTo(main.top - GAP, 0);
+  expect(leftTop.right).toBeCloseTo(main.left - GAP, 0);
+  expect(rightBottom.left).toBeCloseTo(main.right + GAP, 0);
+};
+
+test.describe('sticker - keepの装飾の位置', () => {
+  test('keep: 装飾は本体に揃い、本体はコンテナの中央に置かれる', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'sizing-keep-with-items');
+    const rects = await getKeepRects(page);
+    const { main, container } = rects;
+    expect(main.width).toBeCloseTo(100, 0);
+    expect(main.height).toBeCloseTo(60, 0);
+    expectAlignedX(rects);
+    expectAlignedY(rects);
+    expectGap(rects);
+    expect(midX(main)).toBeCloseTo(midX(container), 0);
+    expect(midY(main)).toBeCloseTo(midY(container), 0);
+  });
+
+  test('横だけkeep: 横方向の装飾が本体に揃う', async ({ page }) => {
+    await gotoStory(page, 'sizing-keep-x-with-items');
+    const rects = await getKeepRects(page);
+    expectAlignedX(rects);
+    expectGap(rects);
+    expect(midX(rects.main)).toBeCloseTo(midX(rects.container), 0);
+  });
+
+  test('縦だけkeep: 縦方向の装飾が本体に揃う', async ({ page }) => {
+    await gotoStory(page, 'sizing-keep-y-with-items');
+    const rects = await getKeepRects(page);
+    expectAlignedY(rects);
+    expect(rects.topLeft.bottom).toBeCloseTo(rects.main.top - GAP, 0);
+    expect(midY(rects.main)).toBeCloseTo(midY(rects.container), 0);
+  });
+
+  test('keep: 本体がコンテナより大きい場合も装飾は本体に揃い、右と下にはみ出す', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'sizing-keep-overflow-with-items');
+    const rects = await getKeepRects(page);
+    const { main, container } = rects;
+    expect(main.width).toBeCloseTo(200, 0);
+    expect(main.height).toBeCloseTo(100, 0);
+    expectAlignedX(rects);
+    expectAlignedY(rects);
+    expectGap(rects);
+    expect(main.left).toBeCloseTo(container.left, 0);
+    expect(main.top).toBeCloseTo(container.top, 0);
   });
 });

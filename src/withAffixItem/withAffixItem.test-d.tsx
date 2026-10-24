@@ -30,6 +30,10 @@ describe('withAffixItem', () => {
     render(<AffixSpan side="top" alignY="top" />);
     // @ts-expect-error left / rightにalignXは指定できない
     render(<AffixSpan side="left" alignX="left" />);
+    // @ts-expect-error top / bottomにgapXは指定できない
+    render(<AffixSpan side="bottom" gapX={4} />);
+    // @ts-expect-error left / rightにgapYは指定できない
+    render(<AffixSpan side="right" gapY={4} />);
     // @ts-expect-error 外側にinsetは指定できない
     render(<AffixSpan side="right" inset={4} />);
     // @ts-expect-error 内側にgapは指定できない

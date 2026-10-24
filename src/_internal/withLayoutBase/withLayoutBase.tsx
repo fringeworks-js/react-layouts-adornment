@@ -1,42 +1,43 @@
 import type { StyleProxyOptions } from '@fringeworks/react-style-proxy';
 import { styleProxy } from '@fringeworks/react-style-proxy';
 import ensureComponent from '@fringeworks/react-utils/utils/ensureComponent';
+import getComponentName from '@fringeworks/react-utils/utils/getComponentName';
 import type { LooseDictionary } from '@fringeworks/types';
 import { unsafeCast } from '@fringeworks/utils';
 import clsx from 'clsx';
 import type { ComponentRef, ElementType } from 'react';
 import { createElement, forwardRef } from 'react';
-import { LAYOUT_PROPS_KEYS } from '../_constants';
-import type { ApplyLayoutOptions, LayoutFunction } from '../applyLayout';
 import applyLayout from '../applyLayout';
 import type {
   LayoutComponentBase,
+  LayoutDefinition,
   WithLayoutBaseOptions,
   WithLayoutProps,
 } from './types';
 
 /**
- * レイアウト機能を追加するHOC
+ * レイアウト機能（コンテナ・装飾）を追加するHOC
  *
- * コンテナ・装飾のどちらにも使用する
+ * - レイアウトのオプションに当たるプロパティだけを取り除き、残りはコンポーネントへ渡す
+ * - レイアウトのスタイルは`styleProp`のプロパティへ既定値としてマージする（ユーザーの指定が優先）
+ * @param hocName HOCの名前（displayNameの既定値に使う）
  * @param Component コンポーネント
- * @param layout レイアウトのクラスとスタイルを作る関数
+ * @param layout レイアウトを作る関数と、プロパティからそのオプションを分ける関数の組
  * @param options オプション
  * @returns
  */
-export default function withLayoutBase<C extends ElementType, O>(
+export default function withLayoutBase<C extends ElementType, O extends object>(
+  hocName: string,
   Component: C,
-  layout: LayoutFunction<O>,
+  layout: LayoutDefinition<O>,
   options: WithLayoutBaseOptions = {},
 ): LayoutComponentBase<C, O> {
   // 公開シグネチャは厳密に保ち、内部の型の辻褄合わせはここに閉じ込める
   const EnsuredComponent = ensureComponent(
     unsafeCast<ElementType<LooseDictionary>>(Component),
   );
-  const name =
-    EnsuredComponent.displayName ?? EnsuredComponent.name ?? 'Unknown';
   const {
-    displayName = `withLayout(${name})`,
+    displayName = `${hocName}(${getComponentName(Component)})`,
     className: staticClassName,
     ...restOptions
   } = options;
@@ -44,22 +45,16 @@ export default function withLayoutBase<C extends ElementType, O>(
     styleAsDefault: true,
     ...restOptions,
   };
+  const [createLayoutStyle, extractOptions] = layout;
 
   const LayoutComponent = forwardRef<ComponentRef<C>, WithLayoutProps<C, O>>(
     (props, ref) => {
-      // propsは`O`を含むが、未解決の型引数`O`そのものとは同一視できないためキャストする
-      const layoutProps = applyLayout(
-        layout,
-        unsafeCast<ApplyLayoutOptions<O>>(props),
-      );
-      // レイアウト用のプロパティを削除
-      const componentProps: LooseDictionary = { ...props };
-      for (const key in LAYOUT_PROPS_KEYS) {
-        delete componentProps[key];
-      }
+      const { className, ...restProps } = unsafeCast<LooseDictionary>(props);
+      const [layoutOptions, componentProps] = extractOptions(restProps);
+      const layoutProps = applyLayout(createLayoutStyle, layoutOptions);
       return createElement(EnsuredComponent, {
         ref,
-        className: clsx(staticClassName, layoutProps.className),
+        className: clsx(staticClassName, className, layoutProps.className),
         ...styleProxy(componentProps, layoutProps.style, styleProxyOptions),
       });
     },

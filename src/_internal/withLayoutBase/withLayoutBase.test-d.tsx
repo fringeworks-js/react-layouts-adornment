@@ -1,7 +1,7 @@
 import type { ComponentProps, ComponentRef, ReactNode } from 'react';
 import { forwardRef } from 'react';
 import { describe, expectTypeOf, it } from 'vitest';
-import type { LayoutFunction } from '../applyLayout';
+import type { ExtractLayoutOptions, LayoutFunction } from '../applyLayout';
 import withLayoutBase from './withLayoutBase';
 
 /**
@@ -25,6 +25,14 @@ type TestLayoutOptions = {
 const testLayout: LayoutFunction<TestLayoutOptions> = () => ({});
 
 /**
+ * テスト用のオプションを分ける関数
+ */
+const extractTestOptions: ExtractLayoutOptions<TestLayoutOptions> = (props) => {
+  const { gap, direction, ...rest } = props;
+  return [{ gap, direction }, rest];
+};
+
+/**
  * テスト用のコンポーネント
  *
  * - `title`: 必須のプロパティ
@@ -40,8 +48,14 @@ const Card = forwardRef<HTMLElement, { title: string; gap?: string }>(
 const render = (node: ReactNode): ReactNode => node;
 
 // 型引数を明示せずに生成する
-const LayoutDiv = withLayoutBase('div', testLayout);
-const LayoutCard = withLayoutBase(Card, testLayout);
+const LayoutDiv = withLayoutBase('withTestLayout', 'div', [
+  testLayout,
+  extractTestOptions,
+]);
+const LayoutCard = withLayoutBase('withTestLayout', Card, [
+  testLayout,
+  extractTestOptions,
+]);
 
 type LayoutDivProps = ComponentProps<typeof LayoutDiv>;
 type LayoutCardProps = ComponentProps<typeof LayoutCard>;
@@ -67,6 +81,15 @@ describe('withLayoutBase', () => {
 
   it('レイアウト機能が消費するプロパティを受け取れる', () => {
     expectTypeOf<{ className: string }>().toExtend<LayoutDivProps>();
+  });
+
+  it('styleは対象コンポーネントの型をそのまま引き継ぐ', () => {
+    expectTypeOf<{
+      style: { color: string };
+    }>().toExtend<LayoutDivProps>();
+    expectTypeOf<{
+      style: { color: string };
+    }>().not.toExtend<LayoutCardProps>();
   });
 
   it('未知のプロパティは受け付けない', () => {

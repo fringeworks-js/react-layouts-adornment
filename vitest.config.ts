@@ -3,6 +3,8 @@ import { configDefaults, defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],
+  // link:で参照したパッケージが別のReactを読み込まないようにする
+  resolve: { dedupe: ['react', 'react-dom'] },
   test: {
     globals: true,
     coverage: { enabled: true },

@@ -87,6 +87,31 @@ import {
                 bottom
 ```
 
+### Children That Are Both a Container and an Adornment
+
+`with*Layout` and `with*Item` cannot be stacked (props with the same name, such as `gap` / `inset`, could not be told apart). When a child is both a container and an adornment, pass the return value of `*Item()` from `@fringeworks/style-layouts-adornment` to the container component as `className` / `style`. Since this imports `@fringeworks/style-layouts-adornment` directly, add it to your dependencies.
+
+```tsx
+import { affixItem } from '@fringeworks/style-layouts-adornment/affix';
+
+const StickerBox = withStickerLayout('div');
+
+<AffixBox gap={4}>
+  <Main />
+  {/* Itself an affix adornment (top left of the main element); its children get a sticker badge */}
+  <StickerBox
+    sizingX="hug"
+    sizingY="hug"
+    {...affixItem({ side: 'top', alignX: 'left' })}
+  >
+    <Icon />
+    <Badge side="inside" alignX="right" alignY="top">
+      3
+    </Badge>
+  </StickerBox>
+</AffixBox>;
+```
+
 ## Sizing
 
 The container's `sizingX` (horizontal) and `sizingY` (vertical) set how the sizes of the main element and the container are determined. Every layout uses the same values, and each axis can be set independently.
@@ -95,7 +120,7 @@ The container's `sizingX` (horizontal) and `sizingY` (vertical) set how the size
 | -------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | Not set  | Width follows the parent, height follows the content        | Left untouched (a main element without a set width expands horizontally; otherwise it keeps its size) |
 | `'fill'` | Width follows the parent, height follows the content        | Grows and shrinks to fit the container                                                                |
-| `'keep'` | Width follows the parent, height follows the content        | Keeps its own size and is centered in the container                                                   |
+| `'keep'` | Width follows the parent, height follows the content        | Keeps its own size and is centered in the container (adornments line up with it)                      |
 | `'hug'`  | Shrinks to fit the main element (and adornments in `affix`) | Keeps its own size                                                                                    |
 
 ```tsx
@@ -182,20 +207,19 @@ Adds container behavior to a component.
 | `Component` | `C`                                                   | The component or tag name to use as the container |
 | `options?`  | `WithAffixLayoutOptions` / `WithStickerLayoutOptions` | See [HOC Options](#hoc-options) below             |
 
-The created component accepts the following props in addition to the original component's props. These props are not passed to the original component.
+The created component accepts the following props in addition to the original component's props. These props are not passed to the original component; all other props are passed through as-is.
 
-| Property     | Type                       | Description                                                                                   |
-| ------------ | -------------------------- | --------------------------------------------------------------------------------------------- |
-| `sizingX?`   | [`Sizing`](#sizing-values) | How the horizontal size is determined (the main element is left untouched when not set)       |
-| `sizingY?`   | [`Sizing`](#sizing-values) | How the vertical size is determined (the main element is left untouched when not set)         |
-| `gap?`       | `number`                   | Spacing between the main element and adornments above, below, left, right (px, both axes)     |
-| `gapX?`      | `number`                   | Spacing between the main element and adornments on the left and right (px)                    |
-| `gapY?`      | `number`                   | Spacing between the main element and adornments above and below (px)                          |
-| `inset?`     | `number`                   | Distance from the main element's edges to adornments inside (px, both axes, negative allowed) |
-| `insetX?`    | `number`                   | Distance from the main element's left and right edges to adornments inside (px)               |
-| `insetY?`    | `number`                   | Distance from the main element's top and bottom edges to adornments inside (px)               |
-| `className?` | `string`                   | Class applied together with the layout's classes                                              |
-| `style?`     | `CSSProperties`            | Style applied together with the layout's CSS custom properties                                |
+| Property     | Type                       | Description                                                                                              |
+| ------------ | -------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `sizingX?`   | [`Sizing`](#sizing-values) | How the horizontal size is determined (the main element is left untouched when not set)                  |
+| `sizingY?`   | [`Sizing`](#sizing-values) | How the vertical size is determined (the main element is left untouched when not set)                    |
+| `gap?`       | `number`                   | Spacing between the main element and adornments above, below, left, right (px, both axes, default 0)     |
+| `gapX?`      | `number`                   | Spacing between the main element and adornments on the left and right (px)                               |
+| `gapY?`      | `number`                   | Spacing between the main element and adornments above and below (px)                                     |
+| `inset?`     | `number`                   | Distance from the main element's edges to adornments inside (px, both axes, negative allowed, default 0) |
+| `insetX?`    | `number`                   | Distance from the main element's left and right edges to adornments inside (px)                          |
+| `insetY?`    | `number`                   | Distance from the main element's top and bottom edges to adornments inside (px)                          |
+| `className?` | `string`                   | Class applied together with the layout's classes                                                         |
 
 ### `withAffixItem` / `withStickerItem`
 
@@ -214,13 +238,12 @@ The created component accepts the following props in addition to the original co
 | `alignX?`    | [`AlignX`](#alignx-values) | Horizontal position (default `'center'`)                                             | `'top'` / `'bottom'` / `'inside'`           |
 | `alignY?`    | [`AlignY`](#aligny-values) | Vertical position (default `'middle'`)                                               | `'left'` / `'right'` / `'inside'`           |
 | `gap?`       | `number`                   | Spacing from the main element; overrides the container value (px, both axes)         | `'top'` / `'bottom'` / `'left'` / `'right'` |
-| `gapX?`      | `number`                   | Same as above (px, horizontal)                                                       | `'top'` / `'bottom'` / `'left'` / `'right'` |
-| `gapY?`      | `number`                   | Same as above (px, vertical)                                                         | `'top'` / `'bottom'` / `'left'` / `'right'` |
+| `gapX?`      | `number`                   | Same as above (px, horizontal)                                                       | `'left'` / `'right'`                        |
+| `gapY?`      | `number`                   | Same as above (px, vertical)                                                         | `'top'` / `'bottom'`                        |
 | `inset?`     | `number`                   | Distance from the main element's edge; overrides the container value (px, both axes) | `'inside'`                                  |
 | `insetX?`    | `number`                   | Same as above (px, horizontal)                                                       | `'inside'`                                  |
 | `insetY?`    | `number`                   | Same as above (px, vertical)                                                         | `'inside'`                                  |
 | `className?` | `string`                   | Class applied together with the layout's classes                                     | All                                         |
-| `style?`     | `CSSProperties`            | Style applied together with the layout's CSS custom properties                       | All                                         |
 
 ### HOC Options
 
@@ -228,10 +251,12 @@ Options that can be passed as the second argument of each HOC.
 
 | Option            | Type                  | Description                                                                                                                            |
 | ----------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `displayName?`    | `string`              | The `displayName` of the created component (default `withLayout(original component name)`)                                             |
+| `displayName?`    | `string`              | The `displayName` of the created component (default `<HOC name>(<original name>)`, e.g. `withAffixLayout(div)`)                        |
 | `className?`      | `string`              | A class that is always applied                                                                                                         |
 | `styleProp?`      | `string`              | The name of the prop that receives the CSS custom properties (default `'style'`). Also works with CSS-in-JS props such as `css` / `sx` |
 | `styleMergeMode?` | `'merge' \| 'append'` | How to combine with the user's style (default `'merge'`). See `@fringeworks/react-style-proxy` for details                             |
+
+The layout style (CSS custom properties) is merged with the value of the `styleProp` prop (default: `style`). When the same property is specified, your value takes precedence. If `styleProp` is set to something other than `style`, `style` is passed to the component as-is.
 
 ### `Side` Values
 
@@ -253,11 +278,11 @@ Options that can be passed as the second argument of each HOC.
 
 ### `Sizing` Values
 
-| Value    | How sizes are determined                                    |
-| -------- | ----------------------------------------------------------- |
-| `'fill'` | Fit the main element to the container                       |
-| `'keep'` | Keep the main element's size and center it in the container |
-| `'hug'`  | Fit the container to the main element                       |
+| Value    | How sizes are determined                                                                 |
+| -------- | ---------------------------------------------------------------------------------------- |
+| `'fill'` | Fit the main element to the container                                                    |
+| `'keep'` | Keep the main element's size and center it in the container (adornments line up with it) |
+| `'hug'`  | Fit the container to the main element                                                    |
 
 The `Side` / `AlignX` / `AlignY` / `Sizing` constants can be imported from `@fringeworks/react-layouts-adornment` (or `@fringeworks/react-layouts-adornment/constants`).
 

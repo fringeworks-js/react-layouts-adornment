@@ -29,6 +29,25 @@ export const Hug: Story = {
   },
 };
 
+/**
+ * インライン要素の本体(<img>など)でも、本体の下に行の隙間ができない
+ */
+export const HugInlineMain: Story = {
+  args: {
+    sizingX: 'hug',
+    sizingY: 'hug',
+    gap: GAP,
+    main: { ...FIXED_MAIN, display: 'inline-block' },
+    items: [
+      { id: 'bottom', options: { side: 'bottom' } },
+      {
+        id: 'inside',
+        options: { side: 'inside', alignX: 'right', alignY: 'bottom' },
+      },
+    ],
+  },
+};
+
 // ===== 上下 =====
 
 export const TopLeft: Story = {
@@ -316,6 +335,69 @@ export const SizingKeepOverflow: Story = {
     sizingY: 'keep',
     containerStyle: { width: '100px', height: '50px' },
     mainClassName: 'story-main-large',
+  },
+};
+// ===== keep: 装飾を本体に揃える =====
+
+const KEEP_ITEMS: NonNullable<TestStoryArgs['items']> = [
+  { id: 'topLeft', options: { side: 'top', alignX: 'left' } },
+  { id: 'topRight', options: { side: 'top', alignX: 'right' } },
+  { id: 'leftTop', options: { side: 'left', alignY: 'top' } },
+  { id: 'rightBottom', options: { side: 'right', alignY: 'bottom' } },
+  { id: 'inside', options: { side: 'inside', alignX: 'right', alignY: 'top' } },
+];
+
+/**
+ * keepでも装飾は本体を基準に配置される
+ */
+export const SizingKeepWithItems: Story = {
+  args: {
+    gap: GAP,
+    sizingX: 'keep',
+    sizingY: 'keep',
+    containerStyle: SIZED_CONTAINER,
+    mainClassName: 'story-main-fixed',
+    items: KEEP_ITEMS,
+  },
+};
+
+/**
+ * 横だけkeep
+ */
+export const SizingKeepXWithItems: Story = {
+  args: {
+    gap: GAP,
+    sizingX: 'keep',
+    containerStyle: { width: '300px' },
+    mainClassName: 'story-main-fixed',
+    items: KEEP_ITEMS,
+  },
+};
+
+/**
+ * 縦だけkeep
+ */
+export const SizingKeepYWithItems: Story = {
+  args: {
+    gap: GAP,
+    sizingY: 'keep',
+    containerStyle: { height: '200px' },
+    mainClassName: 'story-main-fixed',
+    items: KEEP_ITEMS,
+  },
+};
+
+/**
+ * keepで本体がコンテナより大きい場合も、装飾は本体を基準に配置され、右と下にはみ出す
+ */
+export const SizingKeepOverflowWithItems: Story = {
+  args: {
+    gap: GAP,
+    sizingX: 'keep',
+    sizingY: 'keep',
+    containerStyle: { width: '100px', height: '50px' },
+    mainClassName: 'story-main-large',
+    items: KEEP_ITEMS,
   },
 };
 

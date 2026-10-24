@@ -1,3 +1,4 @@
 import '../../css/sticker.scss';
-export type * from '../../withStickerLayout';
+
+export * from '../../withStickerLayout';
 export { default } from '../../withStickerLayout';

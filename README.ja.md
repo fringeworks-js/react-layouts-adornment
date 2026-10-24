@@ -87,6 +87,31 @@ import {
                 bottom
 ```
 
+### コンテナと装飾を兼ねる子要素
+
+`with*Layout` と `with*Item` のHOCは重ねられません（`gap` / `inset` など、同じ名前のプロパティを区別できないため）。子要素がコンテナと装飾を兼ねる場合は、`@fringeworks/style-layouts-adornment` の `*Item()` の戻り値を `className` / `style` としてコンテナのコンポーネントに渡してください。`@fringeworks/style-layouts-adornment` を直接読み込むため、依存に追加してください。
+
+```tsx
+import { affixItem } from '@fringeworks/style-layouts-adornment/affix';
+
+const StickerBox = withStickerLayout('div');
+
+<AffixBox gap={4}>
+  <Main />
+  {/* 自身は affix の装飾（本体の左上）、子要素には sticker でバッジを貼る */}
+  <StickerBox
+    sizingX="hug"
+    sizingY="hug"
+    {...affixItem({ side: 'top', alignX: 'left' })}
+  >
+    <Icon />
+    <Badge side="inside" alignX="right" alignY="top">
+      3
+    </Badge>
+  </StickerBox>
+</AffixBox>;
+```
+
 ## 大きさの決め方
 
 コンテナの `sizingX`（横方向）と `sizingY`（縦方向）で、本体とコンテナの大きさの決め方を指定します。どのレイアウトでも同じ値を使い、縦と横で別々に指定できます。
@@ -95,7 +120,7 @@ import {
 | -------- | ------------------------------------------ | -------------------------------------------------------------------- |
 | 未指定   | 横は親要素に合わせ、縦は中身に合わせる     | 本体に触れない（幅を指定しない本体は横に広がり、それ以外はそのまま） |
 | `'fill'` | 横は親要素に合わせ、縦は中身に合わせる     | コンテナに合わせて伸び縮みする                                       |
-| `'keep'` | 横は親要素に合わせ、縦は中身に合わせる     | 本体の大きさのまま、コンテナの中央に置く                             |
+| `'keep'` | 横は親要素に合わせ、縦は中身に合わせる     | 本体の大きさのまま、コンテナの中央に置く（装飾は本体に揃う）         |
 | `'hug'`  | 本体（affix では本体と装飾）に合わせて縮む | 本体の大きさのまま                                                   |
 
 ```tsx
@@ -182,20 +207,19 @@ withStickerLayout<C extends ElementType>(Component: C, options?: WithStickerLayo
 | `Component` | `C`                                                   | コンテナにするコンポーネントまたはタグ名  |
 | `options?`  | `WithAffixLayoutOptions` / `WithStickerLayoutOptions` | 下記の[HOCのオプション](#hocのオプション) |
 
-作成したコンポーネントは、元のコンポーネントのプロパティに加えて、次のプロパティを受け付けます。これらのプロパティは元のコンポーネントには渡されません。
+作成したコンポーネントは、元のコンポーネントのプロパティに加えて、次のプロパティを受け付けます。これらのプロパティは元のコンポーネントには渡されません。それ以外のプロパティは、そのまま元のコンポーネントに渡されます。
 
-| プロパティ   | 型                       | 説明                                                      |
-| ------------ | ------------------------ | --------------------------------------------------------- |
-| `sizingX?`   | [`Sizing`](#sizing-の値) | 横方向の大きさの決め方（未指定の場合は本体に触れない）    |
-| `sizingY?`   | [`Sizing`](#sizing-の値) | 縦方向の大きさの決め方（未指定の場合は本体に触れない）    |
-| `gap?`       | `number`                 | 本体と上下左右の装飾との間隔 (px,横縦共通)                |
-| `gapX?`      | `number`                 | 本体と左右の装飾との間隔 (px)                             |
-| `gapY?`      | `number`                 | 本体と上下の装飾との間隔 (px)                             |
-| `inset?`     | `number`                 | 本体の端から内側の装飾までの距離 (px,横縦共通,負の値も可) |
-| `insetX?`    | `number`                 | 本体の左右の端から内側の装飾までの距離 (px)               |
-| `insetY?`    | `number`                 | 本体の上下の端から内側の装飾までの距離 (px)               |
-| `className?` | `string`                 | レイアウトのクラスと合わせて適用するクラス                |
-| `style?`     | `CSSProperties`          | レイアウトのCSS変数と合わせて適用するスタイル             |
+| プロパティ   | 型                       | 説明                                                                  |
+| ------------ | ------------------------ | --------------------------------------------------------------------- |
+| `sizingX?`   | [`Sizing`](#sizing-の値) | 横方向の大きさの決め方（未指定の場合は本体に触れない）                |
+| `sizingY?`   | [`Sizing`](#sizing-の値) | 縦方向の大きさの決め方（未指定の場合は本体に触れない）                |
+| `gap?`       | `number`                 | 本体と上下左右の装飾との間隔 (px,横縦共通,デフォルト0)                |
+| `gapX?`      | `number`                 | 本体と左右の装飾との間隔 (px)                                         |
+| `gapY?`      | `number`                 | 本体と上下の装飾との間隔 (px)                                         |
+| `inset?`     | `number`                 | 本体の端から内側の装飾までの距離 (px,横縦共通,負の値も可,デフォルト0) |
+| `insetX?`    | `number`                 | 本体の左右の端から内側の装飾までの距離 (px)                           |
+| `insetY?`    | `number`                 | 本体の上下の端から内側の装飾までの距離 (px)                           |
+| `className?` | `string`                 | レイアウトのクラスと合わせて適用するクラス                            |
 
 ### `withAffixItem` / `withStickerItem`
 
@@ -214,13 +238,12 @@ withStickerItem<C extends ElementType>(Component: C, options?: WithStickerItemOp
 | `alignX?`    | [`AlignX`](#alignx-の値) | 横位置 (デフォルト `'center'`)                             | `'top'` / `'bottom'` / `'inside'`           |
 | `alignY?`    | [`AlignY`](#aligny-の値) | 縦位置 (デフォルト `'middle'`)                             | `'left'` / `'right'` / `'inside'`           |
 | `gap?`       | `number`                 | 本体との間隔。コンテナの値を上書きする (px,横縦共通)       | `'top'` / `'bottom'` / `'left'` / `'right'` |
-| `gapX?`      | `number`                 | 同上 (px,横方向)                                           | `'top'` / `'bottom'` / `'left'` / `'right'` |
-| `gapY?`      | `number`                 | 同上 (px,縦方向)                                           | `'top'` / `'bottom'` / `'left'` / `'right'` |
+| `gapX?`      | `number`                 | 同上 (px,横方向)                                           | `'left'` / `'right'`                        |
+| `gapY?`      | `number`                 | 同上 (px,縦方向)                                           | `'top'` / `'bottom'`                        |
 | `inset?`     | `number`                 | 本体の端からの距離。コンテナの値を上書きする (px,横縦共通) | `'inside'`                                  |
 | `insetX?`    | `number`                 | 同上 (px,横方向)                                           | `'inside'`                                  |
 | `insetY?`    | `number`                 | 同上 (px,縦方向)                                           | `'inside'`                                  |
 | `className?` | `string`                 | レイアウトのクラスと合わせて適用するクラス                 | すべて                                      |
-| `style?`     | `CSSProperties`          | レイアウトのCSS変数と合わせて適用するスタイル              | すべて                                      |
 
 ### HOCのオプション
 
@@ -228,10 +251,12 @@ withStickerItem<C extends ElementType>(Component: C, options?: WithStickerItemOp
 
 | オプション        | 型                    | 説明                                                                                                          |
 | ----------------- | --------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `displayName?`    | `string`              | 作成したコンポーネントの `displayName`（デフォルト `withLayout(元のコンポーネント名)`）                       |
+| `displayName?`    | `string`              | 作成したコンポーネントの `displayName`（デフォルト `<HOCの名前>(<元の名前>)`。例: `withAffixLayout(div)`）    |
 | `className?`      | `string`              | 常に適用するクラス                                                                                            |
 | `styleProp?`      | `string`              | CSS変数を適用するプロパティの名前（デフォルト `'style'`）。`css` / `sx` などのCSS-in-JSのプロパティにも使える |
 | `styleMergeMode?` | `'merge' \| 'append'` | 利用者のスタイルとの組み合わせ方（デフォルト `'merge'`）。詳細は `@fringeworks/react-style-proxy` を参照      |
+
+レイアウトのスタイル（CSS変数）は、`styleProp` のプロパティ（デフォルト `style`）に指定した値とマージされます。同じプロパティを指定した場合は、指定した値が優先されます。`styleProp` に `style` 以外を指定した場合、`style` はそのままコンポーネントに渡されます。
 
 ### `Side` の値
 
@@ -253,11 +278,11 @@ withStickerItem<C extends ElementType>(Component: C, options?: WithStickerItemOp
 
 ### `Sizing` の値
 
-| 値       | 大きさの決め方                           |
-| -------- | ---------------------------------------- |
-| `'fill'` | 本体をコンテナに合わせる                 |
-| `'keep'` | 本体の大きさを保ち、コンテナの中央に置く |
-| `'hug'`  | コンテナを本体に合わせる                 |
+| 値       | 大きさの決め方                                               |
+| -------- | ------------------------------------------------------------ |
+| `'fill'` | 本体をコンテナに合わせる                                     |
+| `'keep'` | 本体の大きさを保ち、コンテナの中央に置く（装飾は本体に揃う） |
+| `'hug'`  | コンテナを本体に合わせる                                     |
 
 `Side` / `AlignX` / `AlignY` / `Sizing` の定数は `@fringeworks/react-layouts-adornment`（または `@fringeworks/react-layouts-adornment/constants`）からインポートできます。
 

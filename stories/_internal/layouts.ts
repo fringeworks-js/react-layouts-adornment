@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ComponentType } from 'react';
 import withAffixItem from '../../src/with-css/withAffixItem';
 import withAffixLayout from '../../src/with-css/withAffixLayout';

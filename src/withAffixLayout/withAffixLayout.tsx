@@ -1,4 +1,5 @@
 import affix from '@fringeworks/style-layouts-adornment/affix';
+import extractAffixOptions from '@fringeworks/style-layouts-adornment/helpers/extractAffixOptions';
 import type { ElementType } from 'react';
 import withLayoutBase from '../_internal/withLayoutBase';
 import type { AffixLayoutComponent, WithAffixLayoutOptions } from './types';
@@ -13,5 +14,10 @@ export default function withAffixLayout<C extends ElementType>(
   Component: C,
   options: WithAffixLayoutOptions = {},
 ): AffixLayoutComponent<C> {
-  return withLayoutBase(Component, affix, options);
+  return withLayoutBase(
+    'withAffixLayout',
+    Component,
+    [affix, extractAffixOptions],
+    options,
+  );
 }
