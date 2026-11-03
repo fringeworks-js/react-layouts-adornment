@@ -43,14 +43,14 @@ describe('withAffixLayout', () => {
     );
     expect(classNames).toEqual([
       'custom',
-      'frg-layout-affix',
-      'frg-layout-affix-sizingX-hug',
-      'frg-layout-affix-sizingY-fill',
+      'frgs-layout-affix',
+      'frgs-layout-affix-sizingX-hug',
+      'frgs-layout-affix-sizingY-fill',
     ]);
     expect(styles).toEqual(
       expect.arrayContaining([
-        '--frg-layout-affix-gapX:4px',
-        '--frg-layout-affix-gapY:4px',
+        '--frgs-layout-affix-gapX:4px',
+        '--frgs-layout-affix-gapY:4px',
       ]),
     );
     expect(html).toContain('id="container"');
@@ -64,8 +64,8 @@ describe('withAffixLayout', () => {
     expect(styles).toEqual(
       expect.arrayContaining([
         'color:red',
-        '--frg-layout-affix-insetX:2px',
-        '--frg-layout-affix-insetY:2px',
+        '--frgs-layout-affix-insetX:2px',
+        '--frgs-layout-affix-insetY:2px',
       ]),
     );
   });
@@ -79,11 +79,11 @@ describe('withAffixItem', () => {
       </AffixSpan>,
     );
     expect(classNames).toEqual([
-      'frg-layout-affix-item',
-      'frg-layout-affix-side-top',
-      'frg-layout-affix-alignX-left',
+      'frgs-layout-affix-item',
+      'frgs-layout-affix-side-top',
+      'frgs-layout-affix-alignX-left',
     ]);
-    expect(styles).toEqual(['--frg-layout-affix-gapY:8px']);
+    expect(styles).toEqual(['--frgs-layout-affix-gapY:8px']);
     expect(html).not.toMatch(/ (side|alignX|gap)=/);
   });
 });
@@ -94,14 +94,14 @@ describe('withStickerLayout / withStickerItem', () => {
       <StickerDiv sizingX="hug" sizingY="hug" inset={-8} />,
     );
     expect(container.classNames).toEqual([
-      'frg-layout-sticker',
-      'frg-layout-sticker-sizingX-hug',
-      'frg-layout-sticker-sizingY-hug',
+      'frgs-layout-sticker',
+      'frgs-layout-sticker-sizingX-hug',
+      'frgs-layout-sticker-sizingY-hug',
     ]);
     expect(container.styles).toEqual(
       expect.arrayContaining([
-        '--frg-layout-sticker-insetX:-8px',
-        '--frg-layout-sticker-insetY:-8px',
+        '--frgs-layout-sticker-insetX:-8px',
+        '--frgs-layout-sticker-insetY:-8px',
       ]),
     );
 
@@ -111,10 +111,10 @@ describe('withStickerLayout / withStickerItem', () => {
       </StickerSpan>,
     );
     expect(item.classNames).toEqual([
-      'frg-layout-sticker-item',
-      'frg-layout-sticker-side-inside',
-      'frg-layout-sticker-alignX-right',
-      'frg-layout-sticker-alignY-top',
+      'frgs-layout-sticker-item',
+      'frgs-layout-sticker-side-inside',
+      'frgs-layout-sticker-alignX-right',
+      'frgs-layout-sticker-alignY-top',
     ]);
   });
 });
@@ -128,9 +128,9 @@ describe('HOCのオプション', () => {
     expect(Label.displayName).toBe('Label');
     expect(renderAttributes(<Label side="bottom" />).classNames).toEqual([
       'label',
-      'frg-layout-affix-item',
-      'frg-layout-affix-side-bottom',
-      'frg-layout-affix-alignX-center',
+      'frgs-layout-affix-item',
+      'frgs-layout-affix-side-bottom',
+      'frgs-layout-affix-alignX-center',
     ]);
   });
 });

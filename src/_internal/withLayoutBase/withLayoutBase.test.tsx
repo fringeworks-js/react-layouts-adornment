@@ -56,7 +56,7 @@ describe('withLayoutBase', () => {
     test('classNameは、HOCのオプション・プロパティ・レイアウトの順に結合する', () => {
       const Sticker = withStickerLayout(Probe, { className: 'static' });
       const props = renderProps(<Sticker className="custom" />);
-      expect(props['className']).toBe('static custom frg-layout-sticker');
+      expect(props['className']).toBe('static custom frgs-layout-sticker');
     });
   });
 
@@ -67,7 +67,7 @@ describe('withLayoutBase', () => {
       const html = renderToStaticMarkup(
         <Affix gap={8} style={{ color: 'red' }} />,
       );
-      expect(html).toContain('--frg-layout-affix-gapX:8px');
+      expect(html).toContain('--frgs-layout-affix-gapX:8px');
       expect(html).toContain('color:red');
     });
 
@@ -75,11 +75,11 @@ describe('withLayoutBase', () => {
       const html = renderToStaticMarkup(
         <Affix
           gap={8}
-          style={{ '--frg-layout-affix-gapX': '20px' } as never}
+          style={{ '--frgs-layout-affix-gapX': '20px' } as never}
         />,
       );
-      expect(html).toContain('--frg-layout-affix-gapX:20px');
-      expect(html).toContain('--frg-layout-affix-gapY:8px');
+      expect(html).toContain('--frgs-layout-affix-gapX:20px');
+      expect(html).toContain('--frgs-layout-affix-gapY:8px');
     });
 
     test('styleProp以外のstyleは、そのままコンポーネントへ渡す', () => {
@@ -90,8 +90,8 @@ describe('withLayoutBase', () => {
       expect(props['style']).toEqual({ margin: 1 });
       expect(props['sx']).toMatchObject({
         color: 'red',
-        '--frg-layout-affix-gapX': '8px',
-        '--frg-layout-affix-gapY': '8px',
+        '--frgs-layout-affix-gapX': '8px',
+        '--frgs-layout-affix-gapY': '8px',
       });
     });
   });
@@ -121,7 +121,7 @@ describe('withLayoutBase', () => {
       );
       // 後ろの要素が優先される（ユーザーの指定が末尾）
       expect(props['sx']).toEqual([
-        { '--frg-layout-affix-gapY': '8px' },
+        { '--frgs-layout-affix-gapY': '8px' },
         { color: 'red' },
       ]);
     });

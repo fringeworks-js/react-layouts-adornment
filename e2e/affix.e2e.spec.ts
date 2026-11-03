@@ -38,7 +38,7 @@ const getRect = (page: Page, testId: string) =>
   page.getByTestId(testId).evaluate(toRect);
 
 const getContainerRect = (page: Page) =>
-  page.locator('.frg-layout-affix').evaluate(toRect);
+  page.locator('.frgs-layout-affix').evaluate(toRect);
 
 const midX = (rect: Rect) => (rect.left + rect.right) / 2;
 const midY = (rect: Rect) => (rect.top + rect.bottom) / 2;
