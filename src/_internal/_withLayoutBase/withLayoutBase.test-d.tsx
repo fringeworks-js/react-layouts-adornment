@@ -1,7 +1,7 @@
 import type { ComponentProps, ComponentRef, ReactNode } from 'react';
 import { forwardRef } from 'react';
 import { describe, expectTypeOf, it } from 'vitest';
-import type { ExtractLayoutOptions, LayoutFunction } from '../applyLayout';
+import type { ExtractLayoutOptions, LayoutFunction } from '../_applyLayout';
 import withLayoutBase from './withLayoutBase';
 
 /**

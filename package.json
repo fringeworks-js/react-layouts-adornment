@@ -1,6 +1,6 @@
 {
   "name": "@fringeworks/react-layouts-adornment",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "description": "React HOCs for placing labels, badges, and other adornments around or over a main element with CSS",
   "keywords": [
@@ -46,17 +46,17 @@
     "tidy": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\" --config ./prettier.tidy.config.ts"
   },
   "dependencies": {
-    "@fringeworks/react-style-proxy": "^0.9.2",
-    "@fringeworks/react-utils": "^0.12.1",
-    "@fringeworks/style-layouts-adornment": "^0.4.0",
-    "@fringeworks/types": "^1.0.0",
-    "@fringeworks/utils": "^2.1.0",
+    "@fringeworks/react-style-proxy": "^0.9.3",
+    "@fringeworks/react-utils": "^0.12.2",
+    "@fringeworks/style-layouts-adornment": "^0.4.1",
+    "@fringeworks/types": "^1.1.1",
+    "@fringeworks/utils": "^2.2.0",
     "clsx": "^2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@chromatic-com/storybook": "^5.1.2",
-    "@fringeworks/dev": "^0.13.2",
+    "@fringeworks/dev": "^0.13.3",
     "@playwright/test": "^1.60.0",
     "@rolldown/plugin-babel": "^0.2.3",
     "@storybook/addon-a11y": "^10.3.6",

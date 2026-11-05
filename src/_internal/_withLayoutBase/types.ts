@@ -11,7 +11,7 @@ import type {
   ExtractLayoutOptions,
   LayoutBaseProps,
   LayoutFunction,
-} from '../applyLayout';
+} from '../_applyLayout';
 
 /**
  * ユニオン型を分配して全てのキーを取り出す

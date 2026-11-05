@@ -1,7 +1,7 @@
 import extractStickerOptions from '@fringeworks/style-layouts-adornment/helpers/extractStickerOptions';
 import sticker from '@fringeworks/style-layouts-adornment/sticker';
 import type { ElementType } from 'react';
-import withLayoutBase from '../_internal/withLayoutBase';
+import withLayoutBase from '../_internal/_withLayoutBase';
 import type { StickerLayoutComponent, WithStickerLayoutOptions } from './types';
 
 /**

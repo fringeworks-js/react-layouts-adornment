@@ -1,7 +1,7 @@
 import { affixItem } from '@fringeworks/style-layouts-adornment/affix';
 import extractAffixItemOptions from '@fringeworks/style-layouts-adornment/helpers/extractAffixItemOptions';
 import type { ElementType } from 'react';
-import withLayoutBase from '../_internal/withLayoutBase';
+import withLayoutBase from '../_internal/_withLayoutBase';
 import type { AffixItemComponent, WithAffixItemOptions } from './types';
 
 /**

@@ -7,7 +7,7 @@ import { unsafeCast } from '@fringeworks/utils';
 import clsx from 'clsx';
 import type { ComponentRef, ElementType } from 'react';
 import { createElement, forwardRef } from 'react';
-import applyLayout from '../applyLayout';
+import applyLayout from '../_applyLayout';
 import type {
   LayoutComponentBase,
   LayoutDefinition,

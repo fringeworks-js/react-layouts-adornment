@@ -6,12 +6,22 @@ import { defineConfig } from 'vite';
 // https://vite.dev/config/
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { playwright } from '@vitest/browser-playwright';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 const dirname =
   typeof __dirname !== 'undefined'
     ? __dirname
     : path.dirname(fileURLToPath(import.meta.url));
+
+// Storybook のテストで、ブラウザーが読み込む addon-vitest の setup ファイルの場所。
+// パッケージにも pnpm-workspace.yaml があるので、Vite はパッケージのフォルダーをルートとみなし、
+// ワークスペースのルートの node_modules にある setup ファイルを読める範囲（server.fs.allow）から外してしまう
+const storybookAddonDir = path.dirname(
+  createRequire(import.meta.url).resolve(
+    '@storybook/addon-vitest/package.json',
+  ),
+);
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
@@ -21,6 +31,7 @@ export default defineConfig({
       presets: [reactCompilerPreset()],
     }),
   ],
+  server: { fs: { allow: [dirname, storybookAddonDir] } },
   test: {
     projects: [
       {
