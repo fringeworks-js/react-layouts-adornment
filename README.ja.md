@@ -20,8 +20,6 @@
 
 ```bash
 npm install @fringeworks/react-layouts-adornment
-# または
-pnpm add @fringeworks/react-layouts-adornment
 ```
 
 ## 使い方
@@ -288,20 +286,27 @@ withStickerItem<C extends ElementType>(Component: C, options?: WithStickerItemOp
 
 ### 型
 
-| 型                          | 説明                                     |
-| --------------------------- | ---------------------------------------- |
-| `WithAffixLayoutProps`      | `withAffixLayout` が追加するプロパティ   |
-| `WithAffixLayoutOptions`    | `withAffixLayout` のHOCのオプション      |
-| `AffixLayoutComponent<C>`   | `withAffixLayout` が返すコンポーネント   |
-| `WithAffixItemProps`        | `withAffixItem` が追加するプロパティ     |
-| `WithAffixItemOptions`      | `withAffixItem` のHOCのオプション        |
-| `AffixItemComponent<C>`     | `withAffixItem` が返すコンポーネント     |
-| `WithStickerLayoutProps`    | `withStickerLayout` が追加するプロパティ |
-| `WithStickerLayoutOptions`  | `withStickerLayout` のHOCのオプション    |
-| `StickerLayoutComponent<C>` | `withStickerLayout` が返すコンポーネント |
-| `WithStickerItemProps`      | `withStickerItem` が追加するプロパティ   |
-| `WithStickerItemOptions`    | `withStickerItem` のHOCのオプション      |
-| `StickerItemComponent<C>`   | `withStickerItem` が返すコンポーネント   |
+| 型                            | 説明                                                                                                                  |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `WithAffixLayoutProps`        | `withAffixLayout` が追加するプロパティ                                                                                |
+| `WithAffixLayoutOptions`      | `withAffixLayout` のHOCのオプション                                                                                   |
+| `AffixLayoutComponent<C>`     | `withAffixLayout` が返すコンポーネント                                                                                |
+| `WithAffixItemProps`          | `withAffixItem` が追加するプロパティ                                                                                  |
+| `WithAffixItemOptions`        | `withAffixItem` のHOCのオプション                                                                                     |
+| `AffixItemComponent<C>`       | `withAffixItem` が返すコンポーネント                                                                                  |
+| `AffixItemTopBottomOptions`   | `withAffixItem` の `side` が `'top'` / `'bottom'` の場合のプロパティ（`@fringeworks/style-layouts-adornment` の型）   |
+| `AffixItemLeftRightOptions`   | `withAffixItem` の `side` が `'left'` / `'right'` の場合のプロパティ（`@fringeworks/style-layouts-adornment` の型）   |
+| `AffixItemInsideOptions`      | `withAffixItem` の `side` が `'inside'` の場合のプロパティ（`@fringeworks/style-layouts-adornment` の型）             |
+| `WithStickerLayoutProps`      | `withStickerLayout` が追加するプロパティ                                                                              |
+| `WithStickerLayoutOptions`    | `withStickerLayout` のHOCのオプション                                                                                 |
+| `StickerLayoutComponent<C>`   | `withStickerLayout` が返すコンポーネント                                                                              |
+| `WithStickerItemProps`        | `withStickerItem` が追加するプロパティ                                                                                |
+| `WithStickerItemOptions`      | `withStickerItem` のHOCのオプション                                                                                   |
+| `StickerItemComponent<C>`     | `withStickerItem` が返すコンポーネント                                                                                |
+| `StickerItemTopBottomOptions` | `withStickerItem` の `side` が `'top'` / `'bottom'` の場合のプロパティ（`@fringeworks/style-layouts-adornment` の型） |
+| `StickerItemLeftRightOptions` | `withStickerItem` の `side` が `'left'` / `'right'` の場合のプロパティ（`@fringeworks/style-layouts-adornment` の型） |
+| `StickerItemInsideOptions`    | `withStickerItem` の `side` が `'inside'` の場合のプロパティ（`@fringeworks/style-layouts-adornment` の型）           |
+| `StyleMergeMode`              | スタイルのマージ方法（`'merge' \| 'append'`。`@fringeworks/react-style-proxy` の型）                                  |
 
 ## 動作環境（対応ブラウザー）
 

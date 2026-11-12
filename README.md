@@ -20,8 +20,6 @@ This library is part of the `@fringeworks/react-layouts` series, but it can be u
 
 ```bash
 npm install @fringeworks/react-layouts-adornment
-# or
-pnpm add @fringeworks/react-layouts-adornment
 ```
 
 ## Usage
@@ -288,20 +286,27 @@ The `Side` / `AlignX` / `AlignY` / `Sizing` constants can be imported from `@fri
 
 ### Types
 
-| Type                        | Description                               |
-| --------------------------- | ----------------------------------------- |
-| `WithAffixLayoutProps`      | Props added by `withAffixLayout`          |
-| `WithAffixLayoutOptions`    | HOC options for `withAffixLayout`         |
-| `AffixLayoutComponent<C>`   | Component returned by `withAffixLayout`   |
-| `WithAffixItemProps`        | Props added by `withAffixItem`            |
-| `WithAffixItemOptions`      | HOC options for `withAffixItem`           |
-| `AffixItemComponent<C>`     | Component returned by `withAffixItem`     |
-| `WithStickerLayoutProps`    | Props added by `withStickerLayout`        |
-| `WithStickerLayoutOptions`  | HOC options for `withStickerLayout`       |
-| `StickerLayoutComponent<C>` | Component returned by `withStickerLayout` |
-| `WithStickerItemProps`      | Props added by `withStickerItem`          |
-| `WithStickerItemOptions`    | HOC options for `withStickerItem`         |
-| `StickerItemComponent<C>`   | Component returned by `withStickerItem`   |
+| Type                          | Description                                                                                                       |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `WithAffixLayoutProps`        | Props added by `withAffixLayout`                                                                                  |
+| `WithAffixLayoutOptions`      | HOC options for `withAffixLayout`                                                                                 |
+| `AffixLayoutComponent<C>`     | Component returned by `withAffixLayout`                                                                           |
+| `WithAffixItemProps`          | Props added by `withAffixItem`                                                                                    |
+| `WithAffixItemOptions`        | HOC options for `withAffixItem`                                                                                   |
+| `AffixItemComponent<C>`       | Component returned by `withAffixItem`                                                                             |
+| `AffixItemTopBottomOptions`   | Props of `withAffixItem` when `side` is `'top'` / `'bottom'` (a type of `@fringeworks/style-layouts-adornment`)   |
+| `AffixItemLeftRightOptions`   | Props of `withAffixItem` when `side` is `'left'` / `'right'` (a type of `@fringeworks/style-layouts-adornment`)   |
+| `AffixItemInsideOptions`      | Props of `withAffixItem` when `side` is `'inside'` (a type of `@fringeworks/style-layouts-adornment`)             |
+| `WithStickerLayoutProps`      | Props added by `withStickerLayout`                                                                                |
+| `WithStickerLayoutOptions`    | HOC options for `withStickerLayout`                                                                               |
+| `StickerLayoutComponent<C>`   | Component returned by `withStickerLayout`                                                                         |
+| `WithStickerItemProps`        | Props added by `withStickerItem`                                                                                  |
+| `WithStickerItemOptions`      | HOC options for `withStickerItem`                                                                                 |
+| `StickerItemComponent<C>`     | Component returned by `withStickerItem`                                                                           |
+| `StickerItemTopBottomOptions` | Props of `withStickerItem` when `side` is `'top'` / `'bottom'` (a type of `@fringeworks/style-layouts-adornment`) |
+| `StickerItemLeftRightOptions` | Props of `withStickerItem` when `side` is `'left'` / `'right'` (a type of `@fringeworks/style-layouts-adornment`) |
+| `StickerItemInsideOptions`    | Props of `withStickerItem` when `side` is `'inside'` (a type of `@fringeworks/style-layouts-adornment`)           |
+| `StyleMergeMode`              | How styles are merged (`'merge' \| 'append'`; a type of `@fringeworks/react-style-proxy`)                         |
 
 ## Browser Support
 
